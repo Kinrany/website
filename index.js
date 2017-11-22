@@ -33,7 +33,10 @@ let questions = [
     }
 ];
 
-let answers = new Map();
+let answers = {};
+questions.forEach(function (q) {
+    answers[q.id] = q.answers[0].id;
+});
 
 let app = new Vue({
     el: '#app',

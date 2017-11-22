@@ -6,15 +6,16 @@
 
 <body>
     <div id="app">
-        <div v-for="(q, i) in questions">
+        <div v-for="q in questions">
             <p>Вопрос: {{ q.text }}</p>
             <p>
                 Ответ: 
-                <select v-model="answers[i]">
+                <select v-model.lazy="answers[q.id]">
                     <option v-for="a in q.answers" v-bind:value="a.id"> {{ a.text }} </option>
                 </select>
             </p>
         </div>
+        <p v-for="(a_id, q_id) in answers"> Ответ {{ q_id }}: {{ a_id }}</p>
     </div>
 </body>
 
