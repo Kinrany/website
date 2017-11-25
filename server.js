@@ -1,5 +1,4 @@
-const http = require('http');
-const fs = require('fs');
+const mongo = require('mongodb');
 const express = require('express');
 const app = express();
 
@@ -9,7 +8,6 @@ app.get('/', function(request, response, next) {
 });
 
 app.use(express.static('public'));
-
 
 app.listen(8080, function() {
     console.log('Listening on port 8080...');
