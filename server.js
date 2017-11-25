@@ -16,7 +16,6 @@ app.get('/guestbook/submissions.json', function (request, response) {
             response.end(error);
         }
         else {
-            console.log(result);
             response.setHeader('Content-Type', 'application/json');
             response.end(JSON.stringify({submissions: result}));
         }
