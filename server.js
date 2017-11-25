@@ -9,7 +9,21 @@ app.get('/guestbook', static_html('views/guestbook.html'));
 
 app.use('/public', express.static('public'));
 
-app.post('/guestbook/submit', function (request, response, next) {
+app.get('/guestbook/submissions.json', function (request, response) {
+    mongo.guestbook_get_submissions(function (error, result) {
+        if (error) {
+            response.writeHead(500);
+            response.end(error);
+        }
+        else {
+            console.log(result);
+            response.setHeader('Content-Type', 'application/json');
+            response.end(JSON.stringify({submissions: result}));
+        }
+    });
+});
+
+app.post('/guestbook/submit', function (request, response) {
     let { author, text } = request.query;
 
     if (!is_valid_guestbook_submission(author, text)) {
@@ -47,7 +61,7 @@ function is_valid_guestbook_submission(author, text) {
 }
 
 function static_html(path) {
-    return function(request, response, next) {
+    return function(request, response) {
         response.sendFile(path, {
             root: '.'
         });

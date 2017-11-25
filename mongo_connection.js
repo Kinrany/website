@@ -22,9 +22,22 @@ module.exports = {
         };
 
         guestbook_submissions.insertOne(message, function (err, res) {
-            if (err) throw err;
+            if (err) callback(err);
             console.log('New guestbook submission: ' + author + ': "' + text + '"');
             callback(null, message);
+        });
+    },
+    guestbook_get_submissions: function (callback) {
+        if (!guestbook_submissions) {
+            callback("not initialized");
+        }
+
+        guestbook_submissions.find({}).toArray(function (err, result) {
+            if (err) callback(err);
+            result.forEach(function(element, index) {
+                delete result[index]._id;
+            });
+            callback(null, result);
         });
     }
 }
