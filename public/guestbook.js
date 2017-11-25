@@ -9,13 +9,13 @@ const data = {
     message_text: ''
 };
 
-$.getJSON("./guestbook-submissions.json")
+$.getJSON("/guestbook/submissions.json")
     .done(function (jsonData) {
         data.submissions = jsonData.submissions;
-        console.log('Successfully loaded guestbook-submissions.json');
+        console.log('Successfully loaded guestbook submissions');
     })
     .fail(function () {
-        console.log('Failed to load guestbook-submissions.json');
+        console.log('Failed to load guestbook submissions');
     });
 
 let app = new Vue({
@@ -26,7 +26,7 @@ let app = new Vue({
             let { message_author: author, message_text: text } = data;
             data.message_author = '';
             data.message_text = '';
-            $.post(`guestbook?author=${author}&text=${text}`)
+            $.post(`/guestbook/submit?author=${author}&text=${text}`)
                 .done(function () {
                     console.log('Posted');
                     data.submissions.push({

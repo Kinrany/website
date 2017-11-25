@@ -3,14 +3,13 @@ const app = express();
 
 const mongo = require('./mongo_connection');
 
-app.get('/', function (request, response, next) {
-    request.url = "/index.html";
-    next();
-});
+app.get('/', static_html('views/index.html'));
+app.get('/survey', static_html('views/survey.html'));
+app.get('/guestbook', static_html('views/guestbook.html'));
 
-app.use(express.static('public'));
+app.use('/public', express.static('public'));
 
-app.post('/guestbook', function (request, response, next) {
+app.post('/guestbook/submit', function (request, response, next) {
     let { author, text } = request.query;
 
     if (!is_valid_guestbook_submission(author, text)) {
@@ -45,4 +44,12 @@ function is_valid_guestbook_submission(author, text) {
         typeof(text) === 'string' &&
         text != '' &&
         text.length < MAX_TEXT_LENGTH;
+}
+
+function static_html(path) {
+    return function(request, response, next) {
+        response.sendFile(path, {
+            root: '.'
+        });
+    };
 }
