@@ -3,7 +3,7 @@ const data = {
     answers: {}
 };
 
-let questionsRequest = $.getJSON("./questions.json");
+let questionsRequest = $.getJSON("./survey-questions.json");
 questionsRequest.done(function(jsonData) {
     data.questions = jsonData.questions;
 
