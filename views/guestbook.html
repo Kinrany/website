@@ -16,7 +16,7 @@
         <h2>Книга посетителей</h2>
         <h3>Сообщения</h3>
         <div v-if="Array.isArray(submissions) && submissions.length > 0" class="messages">
-            <p v-for="message in submissions">
+            <p v-for="message in submissions.slice().reverse()">
                 <b>{{message.author}}:</b> {{message.text}}
             </p>
         </div>
