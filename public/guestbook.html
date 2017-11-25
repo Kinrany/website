@@ -16,6 +16,10 @@
         <div v-else>
             <p>В этой книге пока нет ни одного сообщения :(</p>
         </div>
+        <h3>Новое сообщение</h3>
+        <input v-model="message_author" placeholder="Имя" />
+        <input v-model="message_text" placeholder="Сообщение" />
+        <button v-on:click="send_message()">Отправить</button>
     </div>
 </body>
 
