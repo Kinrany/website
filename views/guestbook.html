@@ -2,13 +2,20 @@
 
 <head>
     <meta charset="utf-8"></meta>
+    <style>
+        .messages{
+            max-height: 60vh;
+            overflow: scroll;
+            outline: solid thin lightblue;
+        }
+    </style>
 </head>
 
 <body>
     <div id="guestbook">
         <h2>Книга посетителей</h2>
         <h3>Сообщения</h3>
-        <div v-if="Array.isArray(submissions) && submissions.length > 0">
+        <div v-if="Array.isArray(submissions) && submissions.length > 0" class="messages">
             <p v-for="message in submissions">
                 <b>{{message.author}}:</b> {{message.text}}
             </p>
