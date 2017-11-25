@@ -15,3 +15,4 @@
 
  - Запустить MongoDB с помощью `mongodb_start.bat`
  - Запустить сервер с помощью `node server.js`
+ - Проверить, открыв `http://localhost:8080/`
