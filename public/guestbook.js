@@ -1,10 +1,5 @@
 const data = {
-    submissions: [
-        {
-            author: "kinrany",
-            text: "Привет, мир!"
-        }
-    ],
+    submissions: [],
     message_author: '',
     message_text: ''
 };
