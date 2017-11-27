@@ -5,7 +5,11 @@ const url = "mongodb://localhost:27017/website_db";
 let guestbook_submissions = null;
 
 client.connect(url, function (err, db) {
-    if (err) throw err;
+    if (err) {
+        console.log('Failed to connect to the database.');
+        console.log(err);
+        return;
+    }
     guestbook_submissions = db.collection('guestbook_submissions');
     console.log('Connected to ' + url + '...');
 });
@@ -34,7 +38,7 @@ module.exports = {
 
         guestbook_submissions.find({}).toArray(function (err, result) {
             if (err) callback(err);
-            result.forEach(function(element, index) {
+            result.forEach(function (element, index) {
                 delete result[index]._id;
             });
             callback(null, result);
