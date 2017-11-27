@@ -1,5 +1,5 @@
 {
-  "name": "website-restart",
+  "name": "website",
   "version": "1.0.0",
   "description": "",
   "main": "server.js",
@@ -13,5 +13,13 @@
     "start": "node server.js"
   },
   "author": "kinrany",
-  "license": "ISC"
+  "license": "AGPL-3.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Kinrany/website.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Kinrany/website/issues"
+  },
+  "homepage": "https://github.com/Kinrany/website#readme"
 }
