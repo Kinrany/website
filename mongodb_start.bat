@@ -1,2 +1,2 @@
 @mkdir .\data\db
-mongod --dbpath ./data/db
+mongod --nojournal --dbpath ./data/db
