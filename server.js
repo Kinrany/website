@@ -1,6 +1,9 @@
 const express = require('express');
 const app = express();
 
+const PORT = process.env.PORT || 8080;
+const IP = process.env.IP || '0.0.0.0';
+
 const mongo = require('./mongo_connection');
 
 app.get('/', static_html('views/index.html'));
@@ -44,8 +47,8 @@ app.post('/guestbook/submit', function (request, response) {
     });
 });
 
-app.listen(8080, function () {
-    console.log('Listening on port 8080...');
+app.listen(PORT, IP, function () {
+    console.log(`Listening on IP ${IP}, port ${PORT}...`);
 });
 
 function is_valid_guestbook_submission(author, text) {
