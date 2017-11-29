@@ -5,7 +5,7 @@
     <meta charset="utf-8"></meta>
     <title>Книга посетителей</title>
     <style>
-        .messages{
+        .messages {
             max-height: 60vh;
             overflow: scroll;
             outline: solid thin lightblue;
@@ -17,6 +17,10 @@
     <div id="guestbook">
         <h2>Книга посетителей</h2>
         <h3>Сообщения</h3>
+        <p>
+            <img v-if="loading_operations_counter > 0" src="/public/loading.svg" alt="Загрузка..." width="32" height="32" />
+            <img v-else v-on:click="load_submissions" src="/public/refresh.svg" alt="Обновить" width="32" height="32" />
+        </p>
         <div v-if="Array.isArray(submissions) && submissions.length > 0" class="messages">
             <p v-for="message in submissions.slice().reverse()">
                 <b>{{message.author}}:</b> {{message.text}}
