@@ -10,7 +10,7 @@
 
 https://website-kinrany.c9users.io/
 
-(Может быть недоступна из-за ограничений хостинга. Свяжитесь со мной любым удобным способом.)
+(Может быть недоступна из-за ограничений хостинга. Свяжитесь со мной любым удобным способом для запуска.)
 
 ## Использование
 
@@ -48,9 +48,9 @@ node server.js
 
 Составляющие проекта: 
 
- - клиент на [Vue](https://vuejs.org/v2/guide/index.html) и [jQuery](http://jquery.com/)
- - сервер на [Node](https://nodejs.org/en/about/) и [Express](http://expressjs.com/en/guide/routing.html)
- - база данных на [MongoDb](https://docs.mongodb.com/) с использованием npm пакета [mongodb](https://www.npmjs.com/package/mongodb)
+ - клиент на [Vue](https://vuejs.org/v2/guide/index.html) и [jQuery](https://jquery.com/)
+ - сервер на [Node](https://nodejs.org/en/about/) и [Express](https://expressjs.com/en/guide/routing.html)
+ - база данных на [MongoDB](https://docs.mongodb.com/) с использованием NPM пакета [mongodb](https://www.npmjs.com/package/mongodb)
 
 > На момент написания (01.12.2017) сайт состоит из двух страниц: заготовки для опроса (`/survey`) и книги посетителей (`/guestbook`). Страница опроса технологически проще, поэтому дальше речь пойдёт только о книге посетителей.
 
@@ -81,9 +81,70 @@ let app = new Vue({
 });
 ```
 
-Главные элементы интерфейса - кнопка обновления, список оставленных сообщений (с новыми сообщениями в начале) и поля для ввода и отправки нового сообщения.
+Главные элементы интерфейса -- кнопка обновления, список оставленных сообщений (с новыми сообщениями в начале) и поля для ввода и отправки нового сообщения.
 
-Приложение хранит в `app.data` список оставленных сообщений `submissions`, а также имя `message_author` и сообщение `message_text`, введённые пользователем.
+Приложение хранит в `app.data` список оставленных сообщений `submissions`, а также введённые пользователем имя `message_author` и сообщение `message_text`.
 
 При первой загрузке страницы, а также при отправке сообщения (методом `send_message()`) и автоматическом обновлении вызывается метод `load_submissions()`, загружающий актуальный список оставленных сообщений. Оба метода используют jQuery и AJAX для обмена информацией с сервером.
 
+### Серверная часть
+
+Серверная логика содержится в `server.js`.
+
+Сервер использует [Express](https://expressjs.com/en/guide/routing.html) -- фреймворк, упрощающий обработку запросов. 
+
+API сервера предоставляет три вида запросов:
+
+1\. HTML-страницы из папки `/views/`
+
+```javascript
+app.get('/', static_html('views/index.html'));
+app.get('/survey', static_html('views/survey.html'));
+app.get('/guestbook', static_html('views/guestbook.html'));
+```
+
+2\. Публичные статические файлы из папки `/public/`
+
+```javascript
+app.use('/public', express.static('public'));
+```
+
+3\. Запросы гостевой книги
+
+```javascript
+app.get('/guestbook/submissions.json', function (request, response) { 
+    /* Запрос к локальной базе данных */ 
+});
+
+app.post('/guestbook/submit', function (request, response) {
+    /* Валидация и добавление сообщения в базу данных */
+});
+```
+
+### База данных
+
+Сервер общается с базой данных с помощью отдельного модуля `mongo_connection.js`,
+который в свою очередь использует NPM пакет [mongodb](https://www.npmjs.com/package/mongodb).
+
+Сообщения хранятся в коллекции `guestbook_submissions` в формате
+
+```json
+{
+    author: "kinrany",
+    text: "Hello world!"
+}
+```
+
+Модуль экспортирует функции `guestbook_add_submission` и `guestbook_get_submissions`. 
+Функции асинхронные и возвращают результат через параметр `callback(error, result)`. 
+Реализуются они с помощью [`db.collection.find()`]
+(https://docs.mongodb.com/manual/reference/method/db.collection.find/) 
+и [`db.collection.insertOne(document)`](https://docs.mongodb.com/manual/reference/method/db.collection.insertOne/).
+
+### Прочее
+
+`/data/db/` -- файлы базы данных.
+
+`/node_modules/`, `package.json`, `package-lock.json` -- файлы NPM
+
+`mongodb_start.bat` -- скрипт для простого запуска MongoDB

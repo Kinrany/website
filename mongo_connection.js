@@ -25,7 +25,7 @@ module.exports = {
             text: text
         };
 
-        guestbook_submissions.insertOne(message, function (err, res) {
+        guestbook_submissions.insertOne(message, function (err, result) {
             if (err) callback(err);
             console.log('New guestbook submission: ' + author + ': "' + text + '"');
             callback(null, message);
