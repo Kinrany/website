@@ -8,7 +8,7 @@
 
 ## Демонстрация
 
-https://website-kinrany.c9users.io/
+https://website-kinrany.c9users.io/guestbook
 
 (Может быть недоступна из-за ограничений хостинга. Свяжитесь со мной любым удобным способом для запуска.)
 
