@@ -137,8 +137,7 @@ app.post('/guestbook/submit', function (request, response) {
 
 Модуль экспортирует функции `guestbook_add_submission` и `guestbook_get_submissions`. 
 Функции асинхронные и возвращают результат через параметр `callback(error, result)`. 
-Реализуются они с помощью [`db.collection.find()`]
-(https://docs.mongodb.com/manual/reference/method/db.collection.find/) 
+Реализуются они с помощью [`db.collection.find()`](https://docs.mongodb.com/manual/reference/method/db.collection.find/) 
 и [`db.collection.insertOne(document)`](https://docs.mongodb.com/manual/reference/method/db.collection.insertOne/).
 
 ### Прочее
