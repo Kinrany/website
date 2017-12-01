@@ -85,13 +85,13 @@ let app = new Vue({
 
 Приложение хранит в `app.data` список оставленных сообщений `submissions`, а также введённые пользователем имя `message_author` и сообщение `message_text`.
 
-При первой загрузке страницы, а также при отправке сообщения (методом `send_message()`) и автоматическом обновлении вызывается метод `load_submissions()`, загружающий актуальный список оставленных сообщений. Оба метода используют jQuery и AJAX для обмена информацией с сервером.
+При первой загрузке страницы, а также при отправке сообщения (методом `send_message()`) и автоматическом обновлении вызывается метод `load_submissions()`, загружающий актуальный список оставленных сообщений. Оба метода используют [jQuery](https://jquery.com/) и [AJAX](https://en.wikipedia.org/wiki/Ajax_%28programming%29) для обмена информацией с сервером.
 
 ### Серверная часть
 
 Серверная логика содержится в `server.js`.
 
-Сервер использует [Express](https://expressjs.com/en/guide/routing.html) -- фреймворк, упрощающий обработку запросов. 
+Сервер написан на JavaScript с использованием [Node](https://nodejs.org/en/about/) и использует [Express](https://expressjs.com/en/guide/routing.html) -- фреймворк, упрощающий обработку запросов. 
 
 API сервера предоставляет три вида запросов:
 
@@ -142,8 +142,8 @@ app.post('/guestbook/submit', function (request, response) {
 
 ### Прочее
 
-`/data/db/` -- файлы базы данных.
+`data/db/` -- файлы базы данных.
 
-`/node_modules/`, `package.json`, `package-lock.json` -- файлы NPM
+`node_modules/`, `package.json`, `package-lock.json` -- файлы NPM
 
 `mongodb_start.bat` -- скрипт для простого запуска MongoDB
