@@ -1,5 +1,11 @@
 # Проект сайта с использованием стека MEVN
 
+## Описание
+
+Сайт с гостевой книгой. 
+
+Показывает сообщения, оставленные другими пользователями. Позволяет оставлять новые сообщения.
+
 ## Демонстрация
 
 https://website-kinrany.c9users.io/
@@ -42,9 +48,9 @@ node server.js
 
 Составляющие проекта: 
 
- - клиент на [Vue](https://vuejs.org/v2/guide/index.html) и [JQuery](http://jquery.com/)
+ - клиент на [Vue](https://vuejs.org/v2/guide/index.html) и [jQuery](http://jquery.com/)
  - сервер на [Node](https://nodejs.org/en/about/) и [Express](http://expressjs.com/en/guide/routing.html)
- - база данных на [MongoDb](https://docs.mongodb.com/) с использованием пакета [mongodb](https://www.npmjs.com/package/mongodb)
+ - база данных на [MongoDb](https://docs.mongodb.com/) с использованием npm пакета [mongodb](https://www.npmjs.com/package/mongodb)
 
 > На момент написания (01.12.2017) сайт состоит из двух страниц: заготовки для опроса (`/survey`) и книги посетителей (`/guestbook`). Страница опроса технологически проще, поэтому дальше речь пойдёт только о книге посетителей.
 
@@ -55,18 +61,29 @@ node server.js
 Тело `guestbook.html` состоит из единственного [приложения Vue](https://vuejs.org/v2/guide/instance.html):
 
 ```html
-<div id="guestbook">
-    <!-- Содержимое приложения -->
-</div>
+<!-- guestbook.html -->
+<body>
+    <div id="guestbook">
+        <!-- Содержимое приложения -->
+    </div>
+</body>
 ```
 
 ```javascript
+// guestbook.js
 let app = new Vue({
     el: '#guestbook',
-    data: /* data object */,
+    data: /* объект для хранения данных */,
     methods: {
-        /* list of methods */
+        send_message: /* функция отправки сообщения */,
+        load_submissions: /* функция загрузки сообщений */
     }
 });
 ```
+
+Главные элементы интерфейса - кнопка обновления, список оставленных сообщений (с новыми сообщениями в начале) и поля для ввода и отправки нового сообщения.
+
+Приложение хранит в `app.data` список оставленных сообщений `submissions`, а также имя `message_author` и сообщение `message_text`, введённые пользователем.
+
+При первой загрузке страницы, а также при отправке сообщения (методом `send_message()`) и автоматическом обновлении вызывается метод `load_submissions()`, загружающий актуальный список оставленных сообщений. Оба метода используют jQuery и AJAX для обмена информацией с сервером.
 
