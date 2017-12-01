@@ -130,8 +130,8 @@ app.post('/guestbook/submit', function (request, response) {
 
 ```json
 {
-    author: "kinrany",
-    text: "Hello world!"
+    "author": "kinrany",
+    "text": "Hello world!"
 }
 ```
 
