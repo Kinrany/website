@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title></title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="css/style.css" rel="stylesheet">
+    <script src="/public/vue.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/chance/1.0.12/chance.min.js"></script>
+</head>
+
+<body>
+    <h1>Duels</h1>
+    <div id="game">
+        <h2>Players</h2>
+        <vc-player :id="1" ref="player1"></vc-player>
+        <vc-player :id="2" ref="player2"></vc-player>
+        <h2>Actions</h2>
+        <p v-for="action in actions">
+            {{action.name}}, 
+            {{action.guid}}, 
+            Cost = {{action.mp_cost}}, 
+            Damage = {{action.hp_damage}}, 
+            XP gain = {{action.xp_gain}}
+        </p>
+    </div>
+</body>
+
+<template id="player-template">
+    <div>
+        <h3>Player {{id}}</h2>
+        <p>
+            <b>Health:</b> {{hp}}
+        </p>
+        <p>
+            <b>Mana:</b> {{mp}}
+        </p>
+        <p>
+            <b>Experience:</b> {{xp}}
+        </p>
+        <p>
+            <b>Actions:</b>
+            <button v-for="action in actions()" @click="">
+                {{action.name}}
+            </button>
+        </p>
+    </div>
+</template>
+
+<script src="/public/games/duels.js"></script>
+
+</html>

@@ -9,6 +9,7 @@ const mongo = require('./mongo_connection');
 app.get('/', static_html('views/index.html'));
 app.get('/survey', static_html('views/survey.html'));
 app.get('/guestbook', static_html('views/guestbook.html'));
+app.get('/games/duels', static_html('views/games/duels.html'));
 
 app.use('/public', express.static('public'));
 
