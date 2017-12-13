@@ -56,6 +56,25 @@
                 {{action.name}}
             </button>
         </p>
+        <p>
+            <b>Reactions:</b>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Action</th>
+                        <th>Crit</th>
+                        <th>Drain</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="(reaction, action_guid) in reactions">
+                        <td>{{action_guid}}</td>
+                        <td>{{reaction.crit}}</td>
+                        <td>{{reaction.drain}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </p>
     </div>
 </template>
 
