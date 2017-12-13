@@ -33,18 +33,17 @@ const game = new Vue({
                     hp: 100,
                     mp: 100,
                     xp: 0,
-                    action_guids: [],
+                    actions: [],
                     reactions: {}
                 };
             },
             props: ['id'],
             methods: {
                 add_actions(...rest) {
-                    rest = rest.map((action) => (typeof action === 'object') ? action.guid : action);
-                    this.action_guids.push.apply(this.action_guids, rest);
+                    this.actions.push.apply(this.actions, rest);
                 },
                 get_actions() {
-                    return this.action_guids.map(guid => actions[guid]);
+                    return this.actions;
                 },
                 perform_action(action) {
                     this.mp -= action.mp_cost;
