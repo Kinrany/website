@@ -14,16 +14,27 @@
     <h1>Duels</h1>
     <div id="game">
         <h2>Players</h2>
-        <vc-player :id="1" ref="player1"></vc-player>
-        <vc-player :id="2" ref="player2"></vc-player>
+        <vc-player :id="1" ref="player1" @act="on_act_1" @spawn-mana="on_spawn_mana_1"></vc-player>
+        <vc-player :id="2" ref="player2" @act="on_act_2" @spawn-mana="on_spawn_mana_2"></vc-player>
         <h2>Actions</h2>
-        <p v-for="action in actions">
-            {{action.name}}, 
-            {{action.guid}}, 
-            Cost = {{action.mp_cost}}, 
-            Damage = {{action.hp_damage}}, 
-            XP gain = {{action.xp_gain}}
-        </p>
+        <table>
+            <thead>
+                <tr>
+                    <th>Action</th>
+                    <th>Cost</th>
+                    <th>Damage</th>
+                    <th>XP gain</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="action in actions">
+                    <td>{{action.name}}</td>
+                    <td>{{action.mp_cost}}</td>
+                    <td>{{action.hp_damage}}</td>
+                    <td>{{action.xp_gain}}</td>
+                </tr>
+            </tbody>
+        </table>
     </div>
 </body>
 
@@ -41,7 +52,7 @@
         </p>
         <p>
             <b>Actions:</b>
-            <button v-for="action in actions()" @click="">
+            <button v-for="action in get_actions()" @click="perform_action(action)">
                 {{action.name}}
             </button>
         </p>
