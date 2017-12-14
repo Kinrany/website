@@ -67,10 +67,10 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="(reaction, action_guid) in reactions">
-                        <td>{{action_guid}}</td>
-                        <td>{{reaction.crit}}</td>
-                        <td>{{reaction.drain}}</td>
+                    <tr v-for="o in get_all_reactions()">
+                        <td>{{o.action.name}}</td>
+                        <td>{{o.reaction.crit}}</td>
+                        <td>{{o.reaction.drain}}</td>
                     </tr>
                 </tbody>
             </table>

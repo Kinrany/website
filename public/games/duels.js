@@ -1,9 +1,11 @@
-const actions = {};
+const reactions = {};
+reactions[1] = {};
+reactions[2] = {};
 
 const game = new Vue({
     el: '#game',
     data: {
-        actions: actions
+        actions: {}
     },
     methods: {
         create_action(name, mp_cost, hp_damage, xp_gain) {
@@ -33,8 +35,7 @@ const game = new Vue({
                     hp: 100,
                     mp: 100,
                     xp: 0,
-                    actions: [],
-                    reactions: {}
+                    actions: []
                 };
             },
             props: ['id'],
@@ -51,25 +52,32 @@ const game = new Vue({
                     this.$emit('act', action);
                 },
                 react(action) {
-                    let reaction = this.reactions[action.guid];
-                    if (!reaction) {
-                        reaction = this.create_reaction(action.guid);
-                    }
+                    let reaction = this.get_reaction(action);
 
                     this.hp -= action.hp_damage;
 
                     this.hp -= reaction.crit;
-                    this.xp -= reaction.crit;
+                    this.xp -= reaction.crit * 2;
 
                     this.mp -= reaction.drain;
-                    this.xp += reaction.drain;
+                    this.xp += reaction.drain * 3;
                     this.$emit('spawn-mana', reaction.drain);
                 },
-                create_reaction(action, crit, drain) {
-                    action = (typeof action === 'object') ? action.guid : action;
-                    let reaction = assignDefined(gen_reaction(), { crit, drain });
-                    this.reactions[action] = reaction;
-                    return reaction;
+                get_reaction(action) {
+                    return get_reaction(this.id, action);
+                },
+                set_reaction(action, reaction) {
+                    reactions[this.id][action.guid] = reaction;
+                },
+                get_all_reactions() {
+                    let results = [];
+                    for (let guid in reactions[this.id]) {
+                        results.push({
+                            action: game.actions[guid],
+                            reaction: reactions[this.id][guid]
+                        });
+                    }
+                    return results;
                 },
                 consume_mana(amount) {
                     this.mp += amount;
@@ -79,22 +87,31 @@ const game = new Vue({
     }
 });
 
-var player1 = game.$refs.player1;
-var player2 = game.$refs.player2;
-
 let pass = game.create_action('pass', 0, 0, 0);
 let punch = game.create_action('punch', 10, 20, 30);
 let kick = game.create_action('kick', 20, 50, 40);
 let caress = game.create_action('caress', 15, 10, 25);
+
+var player1 = game.$refs.player1;
+var player2 = game.$refs.player2;
+
 player1.add_actions(pass, punch, kick);
 player2.add_actions(pass, punch, caress);
-player1.create_reaction(pass, 0, 0);
-player2.create_reaction(pass, 0, 0);
+player1.set_reaction(pass, { crit: 0, drain: 0 });
+player2.set_reaction(pass, { crit: 0, drain: 0 });
 
-function gen_reaction() {
+function get_reaction(id, action) {
+    let reaction = reactions[id][action.guid];
+    if (!reaction) {
+        reaction = generate_reaction();
+    }
+    return reaction;
+}
+
+function generate_reaction() {
     return {
         crit: chance.integer({ min: 0, max: 20 }),
-        drain: chance.integer({ min: -5, max: 25 })
+        drain: chance.integer({ min: 0, max: 10 })
     };
 }
 
