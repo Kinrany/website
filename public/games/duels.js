@@ -1,6 +1,6 @@
 const reactions = {};
-reactions[1] = {};
-reactions[2] = {};
+reactions[1] = []; // [{ action: <action that causes this reaction, reaction: <actual reaction> }];
+reactions[2] = [];
 
 const game = new Vue({
     el: '#game',
@@ -67,17 +67,10 @@ const game = new Vue({
                     return get_reaction(this.id, action);
                 },
                 set_reaction(action, reaction) {
-                    reactions[this.id][action.guid] = reaction;
+                    set_reaction(this.id, action, reaction);
                 },
                 get_all_reactions() {
-                    let results = [];
-                    for (let guid in reactions[this.id]) {
-                        results.push({
-                            action: game.actions[guid],
-                            reaction: reactions[this.id][guid]
-                        });
-                    }
-                    return results;
+                    return reactions[this.id];
                 },
                 consume_mana(amount) {
                     this.mp += amount;
@@ -86,6 +79,8 @@ const game = new Vue({
         }
     }
 });
+
+// at high XP characters bleed HP but regen MP faster
 
 let pass = game.create_action('pass', 0, 0, 0);
 let punch = game.create_action('punch', 10, 20, 30);
@@ -101,16 +96,26 @@ player1.set_reaction(pass, { crit: 0, drain: 0 });
 player2.set_reaction(pass, { crit: 0, drain: 0 });
 
 function get_reaction(id, action) {
-    let reaction = reactions[id][action.guid];
-    if (!reaction) {
-        reaction = generate_reaction();
+    return get_reaction_record(id, action).reaction;
+}
+
+function set_reaction(id, action, reaction) {
+    let record = get_reaction_record(id, action);
+    record.reaction = reaction;
+}
+
+function get_reaction_record(id, action) {
+    let record = reactions[id].find(obj => obj.action === action);
+    if (!record) {
+        record = { action: action, reaction: generate_reaction() };
+        reactions[id].push(record);
     }
-    return reaction;
+    return record;
 }
 
 function generate_reaction() {
     return {
-        crit: chance.integer({ min: 0, max: 20 }),
+        crit: chance.integer({ min: 0, max: 10 }),
         drain: chance.integer({ min: 0, max: 10 })
     };
 }
