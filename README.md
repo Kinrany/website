@@ -35,12 +35,12 @@ mkdir ./data/db
 ### Запуск
 
 ```
-<MongoDB installation path>/bin/mongod --dbpath ./data/db --nojournal
+<путь установки MongoDB>/bin/mongod --dbpath ./data/db --nojournal
 node server.js
 ```
 
 > Для удобства запуска MongoDB на Windows есть скрипт `mongodb_start.bat`.
-> Перед использованием нужно добавить `<MongoDB installation path>/bin/` в PATH (например, с помощью [PathEditor](https://patheditor2.codeplex.com/)), либо заменить в скрипте `mongod` на полный путь.
+> Перед использованием нужно добавить `<путь установки MongoDB>/bin/` в PATH (например, с помощью [PathEditor](https://patheditor2.codeplex.com/)), либо заменить в скрипте `mongod` на полный путь.
 
 Сайт будет доступен по адресу [`localhost:8080`](http://localhost:8080/). Можно указать другие IP и порт, задав [переменные окружения](https://ru.wikipedia.org/wiki/%D0%9F%D0%B5%D1%80%D0%B5%D0%BC%D0%B5%D0%BD%D0%BD%D0%B0%D1%8F_%D1%81%D1%80%D0%B5%D0%B4%D1%8B) IP и PORT соответственно. Для этого удобно использовать [dotenv](https://www.npmjs.com/package/dotenv).
 
