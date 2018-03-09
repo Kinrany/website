@@ -15,12 +15,14 @@ app.use('/public', express.static('public'));
 app.get('/guestbook/submissions.json', function (request, response) {
     mongo.guestbook_get_submissions(function (error, result) {
         if (error) {
-            response.writeHead(500);
+            response.status(500);
+            response.type('text/plain');
             response.end(error);
         }
         else {
-            response.setHeader('Content-Type', 'application/json');
-            response.end(JSON.stringify({submissions: result}));
+            response.status(200);
+            response.type('application/json');
+            response.end(JSON.stringify({ submissions: result }));
         }
     });
 });
@@ -29,20 +31,24 @@ app.post('/guestbook/submit', function (request, response) {
     let { author, text } = request.query;
 
     if (!is_valid_guestbook_submission(author, text)) {
-        response.writeHead(400);
+        response.status(400);
+        response.type('text/plain');
         response.end('Invalid submission');
         return;
     }
 
     mongo.guestbook_add_submission(author, text, function (err, result) {
         if (err) {
-            response.writeHead(500);
+            response.status(500);
+            response.type('text/plain');
             response.end('Failed to save your submission');
-            console.log('Failed to save a guestbook submission: ' + err);
+
+            console.log(`Failed to save a guestbook submission: ${err}`);
         }
         else {
-            response.writeHead(200);
-            response.end('Submission saved: "' + text + '" by ' + author + '.');
+            response.status(200);
+            response.type('text/plain');
+            response.end(`Submission saved: ${text} by ${author}.`);
         }
     });
 });
@@ -54,16 +60,16 @@ app.listen(PORT, IP, function () {
 function is_valid_guestbook_submission(author, text) {
     const MAX_AUTHOR_LENGTH = 300;
     const MAX_TEXT_LENGTH = 5000;
-    return typeof(author) === 'string' && 
+    return typeof (author) === 'string' &&
         author !== '' &&
         author.length < MAX_AUTHOR_LENGTH &&
-        typeof(text) === 'string' &&
+        typeof (text) === 'string' &&
         text != '' &&
         text.length < MAX_TEXT_LENGTH;
 }
 
 function static_html(path) {
-    return function(request, response) {
+    return function (request, response) {
         response.sendFile(path, {
             root: '.'
         });
